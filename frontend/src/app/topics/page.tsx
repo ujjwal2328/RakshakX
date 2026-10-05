@@ -14,27 +14,29 @@ export default function TopicsPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchTopics = async () => {
-      try {
-        const res = await fetch('http://localhost:8000/api/topics/', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        if (!res.ok) throw new Error('Failed to fetch topics data');
-        const data = await res.json();
-        setTopics(data.topics);
-        setWordCloud(data.word_cloud);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
-    if (token) {
-      fetchTopics();
-    }
+    // Injecting mock topics based on Korba Master Plan
+    const mockTopics = [
+      { id: '1', name: 'Opencast Mining', count: 145, trend: '+12%' },
+      { id: '2', name: 'Environment Clearance', count: 89, trend: '+5%' },
+      { id: '3', name: 'Land Acquisition', count: 76, trend: '-2%' },
+      { id: '4', name: 'Coal Evacuation', count: 54, trend: '+8%' },
+      { id: '5', name: 'Rehabilitation & Resettlement', count: 42, trend: '+1%' }
+    ];
+
+    const mockWordCloud = [
+      { text: 'Gevra OCP', weight: 45 },
+      { text: 'Kusmunda', weight: 40 },
+      { text: 'Dipka', weight: 38 },
+      { text: 'Overburden', weight: 25 },
+      { text: 'Production', weight: 30 },
+      { text: 'Environment', weight: 35 },
+      { text: 'CHP', weight: 20 },
+      { text: 'Mechanised', weight: 15 }
+    ];
+
+    setTopics(mockTopics);
+    setWordCloud(mockWordCloud);
+    setIsLoading(false);
   }, [token]);
 
   function trendColor(trend: string) {

@@ -28,25 +28,66 @@ export default function ValidationPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch('http://localhost:8000/api/validation/', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        if (!res.ok) throw new Error('Failed to fetch validations');
-        const data = await res.json();
-        setValidations(data.validations);
-        setSummary(data.summary);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
+    // Injecting relatable mock data based on Master Plan Korba CF
+    const mockValidations = [
+      {
+        id: 'VAL-001',
+        entity_name: 'Gevra OCP',
+        entity_type: 'Mine',
+        field: 'Target Capacity (MTPA)',
+        extracted_value: '70',
+        expected_value: '70',
+        confidence: 0.98,
+        severity: 'info',
+        message: 'Matches Master Plan Chapter 6',
+        document_id: 'DOC-KORBA-006'
+      },
+      {
+        id: 'VAL-002',
+        entity_name: 'Kusmunda OCP',
+        entity_type: 'Mine',
+        field: 'Production Q3',
+        extracted_value: '12.4',
+        expected_value: '15.0',
+        confidence: 0.85,
+        severity: 'danger',
+        message: 'Discrepancy detected between reported Q3 and Master Plan targets.',
+        document_id: 'DOC-KORBA-019'
+      },
+      {
+        id: 'VAL-003',
+        entity_name: 'Korba CF',
+        entity_type: 'Region',
+        field: 'Total Land Required (Ha)',
+        extracted_value: '4250',
+        expected_value: '4250',
+        confidence: 0.95,
+        severity: 'info',
+        message: 'Verified against Chapter 8 (Land) annexures.',
+        document_id: 'DOC-KORBA-008'
+      },
+      {
+        id: 'VAL-004',
+        entity_name: 'Dipka OCP',
+        entity_type: 'Project',
+        field: 'Capital Investment (Cr)',
+        extracted_value: '1850',
+        expected_value: '2100',
+        confidence: 0.72,
+        severity: 'warning',
+        message: 'Extracted value lower than expected. Please verify Chapter 18.',
+        document_id: 'DOC-KORBA-018'
       }
-    };
-    
-    if (token) fetchData();
+    ];
+
+    setValidations(mockValidations);
+    setSummary({
+      total: 4,
+      critical: 1,
+      warnings: 1,
+      verified: 2
+    });
+    setIsLoading(false);
   }, [token]);
 
   if (isLoading) return <div style={{ padding: 'var(--space-10)', textAlign: 'center' }}><RefreshCw className="animate-spin" /> Loading validations...</div>;
