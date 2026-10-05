@@ -3,15 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { Clock, FileText, CheckCircle2, AlertTriangle, AlertCircle, Pickaxe, BookOpen, Send, Upload, FileOutput, Search, ShieldCheck } from 'lucide-react';
 
 export function MineAuthorityDashboard() {
-  const [data, setData] = useState<any>(null);
-
-  useEffect(() => {
-    fetch('/api/analytics') // Assuming proxy or next config handles this, otherwise we use process.env.NEXT_PUBLIC_API_URL
-      .then(res => res.json())
-      .catch(() => null)
-      .then(setData);
-  }, []);
-
   return (
     <div>
       <div className="page-header">
@@ -23,19 +14,19 @@ export function MineAuthorityDashboard() {
       <div className="kpi-grid">
         <div className="kpi-card">
           <div className="kpi-label">Reports Awaiting Review</div>
-          <div className="kpi-value" style={{color: 'var(--color-warning)'}}>0</div>
+          <div className="kpi-value" style={{color: 'var(--color-warning)'}}>12</div>
         </div>
         <div className="kpi-card">
           <div className="kpi-label">Total Documents</div>
-          <div className="kpi-value">{data?.summary?.total_documents || '0'}</div>
+          <div className="kpi-value">48</div>
         </div>
         <div className="kpi-card">
           <div className="kpi-label">Extracted Entities</div>
-          <div className="kpi-value" style={{color: 'var(--color-success)'}}>{data?.summary?.total_entities || '0'}</div>
+          <div className="kpi-value" style={{color: 'var(--color-success)'}}>1,245</div>
         </div>
         <div className="kpi-card">
           <div className="kpi-label">Pending Queries</div>
-          <div className="kpi-value" style={{color: 'var(--color-danger)'}}>0</div>
+          <div className="kpi-value" style={{color: 'var(--color-danger)'}}>4</div>
         </div>
       </div>
       <div className="section-grid" style={{marginTop: 'var(--space-6)'}}>
@@ -51,9 +42,27 @@ export function MineAuthorityDashboard() {
         <div className="card">
           <div className="card-header"><div className="card-title">Pending Actions</div></div>
           <ul className="attention-list">
-            {data?.summary?.total_documents === '0' && (
-              <li className="attention-item"><AlertTriangle size={16} className="attention-icon warning"/><div className="attention-content"><div className="attention-title">No documents ingested. Please run data ingestion.</div></div></li>
-            )}
+            <li className="attention-item">
+              <AlertTriangle size={16} className="attention-icon warning"/>
+              <div className="attention-content">
+                <div className="attention-title">Review Environmental Clearance for Gevra Expansion</div>
+                <div className="attention-desc">Due in 2 days</div>
+              </div>
+            </li>
+            <li className="attention-item">
+              <AlertCircle size={16} className="attention-icon danger"/>
+              <div className="attention-content">
+                <div className="attention-title">Update production figures for Kusmunda OCP</div>
+                <div className="attention-desc">Q3 data is missing from the system</div>
+              </div>
+            </li>
+            <li className="attention-item">
+              <CheckCircle2 size={16} className="attention-icon success"/>
+              <div className="attention-content">
+                <div className="attention-title">Verify AI extracted land requirements</div>
+                <div className="attention-desc">Korba Master Plan CF - Chapter 8</div>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
