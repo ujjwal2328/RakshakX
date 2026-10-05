@@ -21,7 +21,7 @@ function severityLabel(severity: string) {
 }
 
 export default function ValidationPage() {
-  const { token } = useAuth();
+  const { accessToken: token } = useAuth();
   const [validations, setValidations] = useState<any[]>([]);
   const [summary, setSummary] = useState<any>({});
   const [isLoading, setIsLoading] = useState(true);

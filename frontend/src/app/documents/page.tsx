@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import type { Document, DocumentStatus } from '@/types';
 import { SUBSIDIARIES } from '@/types';
-import { api } from '@/utils/api'; // assuming there is an API utility, otherwise I will use fetch
+
 
 const DOC_TYPES = ['All Types', 'Geological Report', 'Production Report', 'Exploration Report', 'Environmental Report', 'Safety Report', 'Administrative Report', 'Project Report'];
 const DEPARTMENTS = ['All Departments', 'Geology', 'Production', 'Exploration', 'Environment', 'Safety', 'Administration', 'Projects', 'Planning'];

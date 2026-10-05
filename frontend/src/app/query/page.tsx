@@ -29,7 +29,7 @@ interface QueryResponseData {
 }
 
 export default function QueryPage() {
-  const { token } = useAuth();
+  const { accessToken: token } = useAuth();
   const [query, setQuery] = useState('');
   const [response, setResponse] = useState<QueryResponseData | null>(null);
   const [isLoading, setIsLoading] = useState(false);

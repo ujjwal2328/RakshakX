@@ -5,7 +5,7 @@ import { Tags, TrendingUp, FileText, ChevronRight, AlertCircle, RefreshCw } from
 import { useAuth } from '@/lib/auth-context';
 
 export default function TopicsPage() {
-  const { token } = useAuth();
+  const { accessToken: token } = useAuth();
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   
   const [topics, setTopics] = useState<any[]>([]);
