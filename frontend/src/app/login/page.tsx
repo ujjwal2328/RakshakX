@@ -83,7 +83,6 @@ export default function LoginPage() {
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter your username"
               autoComplete="username"
-              required
             />
           </div>
 
@@ -98,7 +97,6 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
                 autoComplete="current-password"
-                required
               />
               <button
                 type="button"
@@ -121,9 +119,9 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <button className="btn btn-primary" type="submit" disabled={loading}>
+          <button className="btn btn-primary" type="submit" disabled={loading} style={{ background: 'var(--color-primary-600)', border: 'none', padding: '12px' }}>
             <Lock size={14} />
-            {loading ? 'Authenticating...' : 'Sign In'}
+            {loading ? 'Authenticating...' : 'Hackathon Judge Login (No Password Required)'}
           </button>
         </form>
 

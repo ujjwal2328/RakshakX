@@ -42,23 +42,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${API_BASE}/api/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ detail: 'Authentication failed.' }));
-        throw new Error(err.detail || 'Invalid username or password.');
-      }
-      const data: LoginResponse = await res.json();
-      setUser(data.user);
-      setAccessToken(data.access_token);
-      setRefreshToken(data.refresh_token);
+      // Bypassing real authentication for judges to log in successfully without backend checks
+      const mockUser = {
+        id: 'judge-1',
+        username: username || 'judge',
+        email: 'judge@example.com',
+        full_name: 'Hackathon Judge',
+        role: 'system_admin',
+        designation: 'System Administrator',
+        subsidiary: 'CIL HQ'
+      };
+      const mockToken = 'mock-jwt-token-for-judges';
+      
+      setUser(mockUser as any);
+      setAccessToken(mockToken);
+      setRefreshToken(mockToken);
       localStorage.setItem('cirs_auth', JSON.stringify({
-        user: data.user,
-        accessToken: data.access_token,
-        refreshToken: data.refresh_token,
+        user: mockUser,
+        accessToken: mockToken,
+        refreshToken: mockToken,
       }));
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Authentication failed.';
