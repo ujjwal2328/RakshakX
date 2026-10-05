@@ -52,17 +52,15 @@ export default function QueryPage() {
         confidence: '95%',
         sources: [
           {
-            text: 'Targeted expansion to 70 MTPA for Gevra, 50 MTPA for Kusmunda...',
-            document_id: 'DOC-KORBA-006',
-            document_name: 'Chapter-6 MINING STRATEGY.doc',
+            title: 'Chapter-6 MINING STRATEGY.doc',
             page: 12,
+            content: 'Targeted expansion to 70 MTPA for Gevra, 50 MTPA for Kusmunda...',
             relevance: 0.98
           },
           {
-            text: 'Mechanised underground mining (Continuous Miners / Longwall) is proposed...',
-            document_id: 'DOC-KORBA-007',
-            document_name: 'CHAPTER-7-METHOD OF MINING.doc',
+            title: 'CHAPTER-7-METHOD OF MINING.doc',
             page: 4,
+            content: 'Mechanised underground mining (Continuous Miners / Longwall) is proposed...',
             relevance: 0.89
           }
         ]
