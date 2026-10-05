@@ -28,64 +28,61 @@ export default function ValidationPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Injecting relatable mock data based on Master Plan Korba CF
     const mockValidations = [
       {
         id: 'VAL-001',
-        entity_name: 'Gevra OCP',
-        entity_type: 'Mine',
-        field: 'Target Capacity (MTPA)',
-        extracted_value: '70',
-        expected_value: '70',
-        confidence: 0.98,
-        severity: 'info',
-        message: 'Matches Master Plan Chapter 6',
-        document_id: 'DOC-KORBA-006'
+        severity: 'danger',
+        title: 'Production Target Discrepancy: Kusmunda OCP',
+        status: 'Open',
+        description: 'Q3 production figures reported differ significantly from the Master Plan targets.',
+        sourceA: {
+          value: '12.4 MTPA (Reported Q3)',
+          document: 'Q3_Production_Review.xls',
+          page: 1
+        },
+        sourceB: {
+          value: '15.0 MTPA (Target)',
+          document: 'Chapter-6 MINING STRATEGY.doc',
+          page: 14
+        }
       },
       {
         id: 'VAL-002',
-        entity_name: 'Kusmunda OCP',
-        entity_type: 'Mine',
-        field: 'Production Q3',
-        extracted_value: '12.4',
-        expected_value: '15.0',
-        confidence: 0.85,
-        severity: 'danger',
-        message: 'Discrepancy detected between reported Q3 and Master Plan targets.',
-        document_id: 'DOC-KORBA-019'
+        severity: 'warning',
+        title: 'Capital Investment Discrepancy: Dipka OCP',
+        status: 'Under Review',
+        description: 'Extracted investment value is lower than the expected budget allocation.',
+        sourceA: {
+          value: '1850 Cr',
+          document: 'Dipka_Financials_Draft.doc',
+          page: 5
+        },
+        sourceB: {
+          value: '2100 Cr',
+          document: 'CHAPTER-18-CAPITAL INVESTMENT.doc',
+          page: 3
+        }
       },
       {
         id: 'VAL-003',
-        entity_name: 'Korba CF',
-        entity_type: 'Region',
-        field: 'Total Land Required (Ha)',
-        extracted_value: '4250',
-        expected_value: '4250',
-        confidence: 0.95,
         severity: 'info',
-        message: 'Verified against Chapter 8 (Land) annexures.',
-        document_id: 'DOC-KORBA-008'
-      },
-      {
-        id: 'VAL-004',
-        entity_name: 'Dipka OCP',
-        entity_type: 'Project',
-        field: 'Capital Investment (Cr)',
-        extracted_value: '1850',
-        expected_value: '2100',
-        confidence: 0.72,
-        severity: 'warning',
-        message: 'Extracted value lower than expected. Please verify Chapter 18.',
-        document_id: 'DOC-KORBA-018'
+        title: 'Verified Land Requirement: Korba CF',
+        status: 'Resolved',
+        description: 'Total land required matches the approved Master Plan annexures.',
+        sourceA: {
+          value: '4250 Ha',
+          document: 'CHAPTER-8-LAND.doc',
+          page: 1
+        }
       }
     ];
 
     setValidations(mockValidations);
     setSummary({
-      total: 4,
+      open_issues: 3,
       critical: 1,
       warnings: 1,
-      verified: 2
+      resolved_month: 24
     });
     setIsLoading(false);
   }, [token]);

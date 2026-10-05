@@ -42,21 +42,35 @@ export default function QueryPage() {
     setResponse(null);
     
     try {
-      const res = await fetch('http://localhost:8000/api/query/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ question: q })
-      });
+      // Mocking response for Vercel deployment
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
-      if (!res.ok) {
-        throw new Error('Failed to fetch system response');
-      }
+      const mockData: QueryResponseData = {
+        query_id: 'QRY-999',
+        question: q,
+        answer: 'Based on the Master Plan Korba CF, the targeted production for Gevra OCP is 70 MTPA, Kusmunda is 50 MTPA, and Dipka is 40 MTPA. The strategy emphasizes mechanised opencast mining with 42-cum shovels and 240-Ton dumpers. For reserves beyond the techno-economic stripping ratio, underground mining using Continuous Miners is proposed.',
+        confidence: '95%',
+        sources: [
+          {
+            id: '1',
+            text: 'Targeted expansion to 70 MTPA for Gevra, 50 MTPA for Kusmunda...',
+            document_id: 'DOC-KORBA-006',
+            document_name: 'Chapter-6 MINING STRATEGY.doc',
+            page: 12,
+            relevance: 0.98
+          },
+          {
+            id: '2',
+            text: 'Mechanised underground mining (Continuous Miners / Longwall) is proposed...',
+            document_id: 'DOC-KORBA-007',
+            document_name: 'CHAPTER-7-METHOD OF MINING.doc',
+            page: 4,
+            relevance: 0.89
+          }
+        ]
+      };
       
-      const data: QueryResponseData = await res.json();
-      setResponse(data);
+      setResponse(mockData);
     } catch (err: any) {
       setError(err.message || 'An error occurred while generating the response.');
     } finally {
