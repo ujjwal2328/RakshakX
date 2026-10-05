@@ -7,10 +7,30 @@ export default function AnalyticsPage() {
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
-    fetch('/api/analytics')
-      .then(res => res.json())
-      .catch(() => null)
-      .then(setData);
+    // Injecting realistic mock analytics for Korba Master Plan
+    const mockData = {
+      summary: {
+        total_documents: '48',
+        total_entities: '1,245'
+      },
+      production_trend: [
+        { month: 'Apr', actual: 12.1, target: 12.5 },
+        { month: 'May', actual: 13.0, target: 13.0 },
+        { month: 'Jun', actual: 12.5, target: 13.5 },
+        { month: 'Jul', actual: 11.2, target: 12.0 },
+        { month: 'Aug', actual: 11.8, target: 12.5 },
+        { month: 'Sep', actual: 12.4, target: 14.0 },
+      ],
+      document_types: [
+        { type: 'Master Plan', count: 18 },
+        { type: 'Geological Reports', count: 12 },
+        { type: 'Production Data', count: 8 },
+        { type: 'Environmental', count: 6 },
+        { type: 'Safety Audits', count: 4 }
+      ]
+    };
+    
+    setData(mockData);
   }, []);
 
   const reportStats = [
