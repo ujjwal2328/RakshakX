@@ -1,0 +1,71 @@
+version: '3.9'
+
+services:
+  # ── Frontend ─────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+
+  # ── Backend ──────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://cirs:cirs_dev@postgres:5432/cirs_db
+      - REDIS_URL=redis://redis:6379/0
+      - DEBUG=true
+      - CORS_ORIGINS=http://localhost:3000
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./backend:/app
+
+  # ── PostgreSQL + pgvector + PostGIS ──────────────────
+  postgres:
+    image: pgvector/pgvector:pg16
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: cirs_db
+      POSTGRES_USER: cirs
+      POSTGRES_PASSWORD: cirs_dev
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # ── Redis ────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  # ── MinIO (S3-compatible storage) ────────────────────
+  minio:
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio_data:/data
+
+volumes:
+  postgres_data:
+  minio_data:
